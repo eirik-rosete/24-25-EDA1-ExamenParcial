@@ -7,6 +7,31 @@ Dentro de [documentos](./documentos/) encontrará la respuesta de todas las preg
 
 # 24-25-EDA1-ExamenParcial
 
+## Pre-examen
+
+Aprovechando la utilización de todo el código fijado para el examen, crearemos dentro de src dos versiones de los problemas asociados que tienen que ver con la implementación de los nodos de una lista enlazada. La primera versión se encontrará en la carpeta [implementacionA](./src/implementacionA) y la segunda en la carpeta [implementacionB](./src/implementacionB).
+
+Colocaremos pues, dentro de cada carpeta mencionada, el código y lo adaptaremos de la manera en que sea necesario para ir respondiendo las preguntas.
+
+Se han implementado los métodos necesarios de las clases para que sea funcional el código. Para la implementación A, ha sido necesario añadir lo siguiente:
+
+- Un método getNombre() en la clase [Persona](./src/implementacionA/Persona.java)
+- Un método getDni() en la clase [Persona](./src/implementacionA/Persona.java)
+- Un método setNombre() en la clase [Persona](./src/implementacionA/Persona.java)
+
+- Un método getPersona() en la clase [Nodo](./src/implementacionA/Nodo.java)
+- Un método getSiguiente() en la clase [Nodo](./src/implementacionA/Nodo.java)
+
+Para la implementación B, ha sido necesario añadir lo siguiente:
+
+- Un método getDni() en la clase [Persona](./src/implementacionB/Persona.java)
+- Un método setNombre() en la clase [Persona](./src/implementacionB/Persona.java)
+
+- Un método getPersona() en la clase [Nodo](./src/implementacionB/Nodo.java)
+- Un método getSiguiente() en la clase [Nodo](./src/implementacionB/Nodo.java)
+
+Asimismo, se creó dos 'Main' por implementación, uno que es para la pregunta dos, específicamente, y otro que es para el resto de preguntas, de manera general.
+
 ## Pregunta 1: análisis de implementaciones
 
 Observe los siguientes fragmentos de código que implementan un nodo para una lista enlazada:
@@ -43,11 +68,7 @@ class Nodo {
 |-
 a) ¿Qué implementación considera que utiliza mejor los recursos de memoria? Justifique su respuesta.
 
-Aprovechando la utilización de todo el código fijado para el examen, crearemos dentro de src dos versiones de los problemas asociados que tienen que ver con la implementación de los nodos de una lista enlazada. La primera versión se encontrará en la carpeta [implementacionA](./src/implementacionA) y la segunda en la carpeta [implementacionB](./src/implementacionB).
-
-Colocaremos pues, dentro de cada carpeta mencionada, el código y lo adaptaremos de la manera en que sea necesario para ir respondiendo las preguntas.
-
-La implementación B utiliza mejor los recursos de memoria, ya que no crea un nuevo objeto Persona cada vez que se crea un nuevo nodo, sino que hace referencia al mismo objeto. En cambio, la implementación A crea un nuevo objeto Persona cada vez que se crea un nuevo nodo.
+La implementación B utiliza mejor los recursos de memoria, ya que no crea un nuevo objeto Persona cada vez que se crea un nuevo nodo, sino que hace referencia al mismo objeto. En cambio, la implementación A crea un nuevo objeto Persona cada vez que se crea un nuevo nodo, incluso fue necesaria la creación de un método getNombre() en la clase Persona para poder obtener el nombre de la persona y poder crear un nuevo objeto Persona con los mismos datos (aunque esto no significa que B no sea escalable en un futuro implementando la misma función)
 
 b) ¿Qué problemas o ventajas podría causar cada implementación? Proporcione ejemplos.
 c) ¿Cómo afectaría cada implementación al comportamiento de una lista que use estos nodos?

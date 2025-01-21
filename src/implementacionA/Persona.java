@@ -12,8 +12,6 @@ public class Persona {
         this.dni = persona.dni;
     }
 
-    // Getters. Se han agregado para poder acceder a los atributos de la clase Persona.
-
     public String getNombre() {
         return nombre;
     }
@@ -21,8 +19,6 @@ public class Persona {
     public String getDni() {
         return dni;
     }
-
-    // Setters. Se han agregado para poder modificar los atributos de la clase Persona.
 
     public void setNombre(String nombre) {
         this.nombre = nombre;

@@ -7,8 +7,6 @@ public class Nodo {
         this.siguiente = siguiente;
     }
 
-    // Getters. Se han agregado para poder acceder a los atributos de la clase Persona.
-
     public Persona getPersona() {
         return persona;
     }

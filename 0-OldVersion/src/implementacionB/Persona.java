@@ -14,11 +14,7 @@ public class Persona {
         this.dni = persona.dni;
     }
 
-    public String getDni() {
-        return dni;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String nuevoNombre) {
+        this.nombre = nuevoNombre;
     }
 }

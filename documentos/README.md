@@ -1,4 +1,112 @@
-# Respuestas a las preguntas planteadas - Pregunta 3
+
+---
+# IMPORTANTE
+Dentro de [documentos](./documentos/) encontrará la respuesta de todas las preguntas.
+
+---
+
+# 24-25-EDA1-ExamenParcial
+
+## Pregunta 1: análisis de implementaciones
+
+Observe los siguientes fragmentos de código que implementan un nodo para una lista enlazada:
+
+**Implementación A**
+
+```java
+class Nodo {
+    private Persona persona;
+    private Nodo siguiente;
+    
+    public Nodo(Persona persona, Nodo siguiente) {
+        this.persona = new Persona(persona.getNombre(), persona.getDni());
+        this.siguiente = siguiente;
+    }
+}
+```
+
+**Implementación B**
+
+```java
+class Nodo {
+    private Persona persona;
+    private Nodo siguiente;
+    
+    public Nodo(Persona persona, Nodo siguiente) {
+        this.persona = persona;
+        this.siguiente = siguiente;
+    }
+}
+```
+
+||
+|-
+a) ¿Qué implementación considera que utiliza mejor los recursos de memoria? Justifique su respuesta.
+
+Aprovechando la utilización de todo el código fijado para el examen, crearemos dentro de src dos versiones de los problemas asociados que tienen que ver con la implementación de los nodos de una lista enlazada. La primera versión se encontrará en la carpeta [implementacionA](./src/implementacionA) y la segunda en la carpeta [implementacionB](./src/implementacionB).
+
+Colocaremos pues, dentro de cada carpeta mencionada, el código y lo adaptaremos de la manera en que sea necesario para ir respondiendo las preguntas.
+
+La implementación B utiliza mejor los recursos de memoria, ya que no crea un nuevo objeto Persona cada vez que se crea un nuevo nodo, sino que hace referencia al mismo objeto. En cambio, la implementación A crea un nuevo objeto Persona cada vez que se crea un nuevo nodo.
+
+b) ¿Qué problemas o ventajas podría causar cada implementación? Proporcione ejemplos.
+c) ¿Cómo afectaría cada implementación al comportamiento de una lista que use estos nodos?
+
+## Pregunta 2: gestión de referencias
+
+Considere este código:
+
+```java
+class Lista {
+    private Nodo primero;
+    
+    public void insertarPersona(Persona persona) {
+        Nodo nuevo = new Nodo(persona, primero);
+        primero = nuevo;
+    }
+    
+    public boolean contiene(Persona persona) {
+        Nodo actual = primero;
+        while (actual != null) {
+            if (actual.getPersona().getDni().equals(persona.getDni())) {
+                return true;
+            }
+            actual = actual.getSiguiente();
+        }
+        return false;
+    }
+    
+    public Persona obtenerPersona(String dni) {
+        Nodo actual = primero;
+        while (actual != null) {
+            if (actual.getPersona().getDni().equals(dni)) {
+                return actual.getPersona();
+            }
+            actual = actual.getSiguiente();
+        }
+        return null;
+    }
+}
+```
+
+a) Si tenemos:
+
+```java
+Lista lista = new Lista();
+Persona juan = new Persona("Juan", "1234");
+lista.insertarPersona(juan);
+Persona personaEncontrada = lista.obtenerPersona("1234");
+personaEncontrada.setNombre("Juan Manuel");
+```
+¿Qué nombre tendrá la persona almacenada en la lista? ¿Por qué?
+
+b) ¿Qué sucedería si modificamos:
+
+```java
+juan.setNombre("Juan Carlos");
+```
+
+después de insertarlo en la lista? ¿Depende de la implementación del Nodo que usemos (A o B de la pregunta anterior)?
 
 ## Pregunta 3: referencias y constructores
 
@@ -34,24 +142,43 @@ public class Principal {
 }
 ```
 
-|a) ¿Cuántos objetos Persona diferentes hay en memoria? Justifique su respuesta.|
-|-|
+||
+|-
+a) ¿Cuántos objetos Persona diferentes hay en memoria? Justifique su respuesta.
+b) Si hacemos `manuel.setNombre("Manuel Antonio")`, ¿qué elementos de la lista se verán afectados? ¿Por qué?
 
-- Para la [implementación A](../src/implementacionA) de la primera pregunta, hay 5 objetos *Persona* de la clase [Persona](../src/implementacionA/Persona.java) diferentes en memoria, uno es *manuel*, otro es *copia*, otro es *referencia*, y los otros dos son los que se crean al momento de la implementar el siguiente nodo en la lista. Esto es porque en el constructor de la clase [Nodo](../src/implementacionA/Nodo.java) se crea un nuevo objeto independientemente de si se hace referencia al los mismos datos de los objetos.
+## Pregunta 4: diseño y optimización
 
-![Diagrama de objetos implementación A](../images/diagramaA.png)
+Proponga una implementación de una Lista que:
 
-- Para la [implementación B](../src/implementacionB) de la primera pregunta, hay 2 objetos *Persona* de la clase [Persona](../src/implementacionB/Persona.java) diferentes en memoria, uno es *manuel* y el otro es *copia*. *referencia* no es un objeto *Persona* diferente, sino que es una referencia al objeto *manuel*. Esto es así puesto que en el código de la clase [Nodo](../src/implementacionB/Nodo.java) se hace una referencia al mismo objeto persona.
+- Permita detectar si se está intentando insertar una referencia a una Persona que ya existe en la lista
+- Permita elegir si queremos insertar una copia de la Persona o mantener la referencia
+- Sea eficiente en el uso de memoria
 
-![Diagrama de objetos implementación B](../images/diagramaB.png)
+Explique su diseño y justifique las decisiones tomadas.
 
-|b) Si hacemos `manuel.setNombre("Manuel Antonio")`, ¿qué elementos de la lista se verán afectados? ¿Por qué?|
-|-|
+## Pregunta 5: análisis de código
 
-- Para la [implementación A](../src/implementacionA) no se ve afectada la lista y sólo se verá afectado el objeto *Persona* del [Main.java](../src/implementacionA/Main.java) *manuel* ya que es el objeto creado a partir del constructor de la clase [Nodo](../src/implementacionA/Nodo.java) que crea un nuevo objeto cada vez que se crea un nuevo nodo.
+Dado este fragmento:
 
-![Diagrama de objetos implementación A, cambiando el nombre al objeto manuel](../images/diagramaAManuelAntonio.png)
+```java
+public class GestorPersonas {
+    private Lista lista;
+    
+    public void agregarPersona(Persona persona) {
+        if (!lista.contiene(persona)) {
+            lista.insertarPersona(persona);
+        }
+    }
+    
+    public Persona buscarPersona(String dni) {
+        return lista.obtenerPersona(dni);
+    }
+}
+```
 
-- Para la [implementación B](../src/implementacionB) se verán afectados los elementos de la lista *manuel* y *referencia* debido a que ambos apuntan al mismo objeto *Persona*, en cuyo caso es *manuel*, por lo que ahora ambos tendrán el nombre "Manuel Antonio" de la lista, además del propio objeto *Persona*.
-
-![Diagrama de objetos implementación B, cambiando el nombre al objeto manuel](../images/diagramaBManuelAntonio.png)
+||
+|-
+a) ¿Qué problemas potenciales ve en este código respecto al manejo de referencias?
+b) ¿Cómo lo mejoraría para evitar modificaciones no deseadas de los objetos?
+c) Proponga una solución que proteja la integridad de los datos.
